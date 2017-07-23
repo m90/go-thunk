@@ -5,6 +5,8 @@
 
 > wrap a thunk with defer / recover
 
+Package `thunk` decorates the passed thunk with a [defer / recover block](https://blog.golang.org/defer-panic-and-recover)
+
 ### Installation using go get
 
 ```sh
@@ -13,7 +15,7 @@ $ go get github.com/m90/go-thunk
 
 ### Usage
 
-Wrap a thunk using `RunSafely(func())`:
+Wrap a thunk using `RunSafely(func())`, discarding any error:
 
 ```go
 RunSafely(func() {
