@@ -35,5 +35,17 @@ RunSafelyWith(func() {
 })
 ```
 
+which (roughly) equals:
+
+```go
+defer func() {
+	if err := recover(); err != nil {
+		fmt.Printf("encountered error executing thunk: %v\n", err)
+	}
+}()
+result := weirdpackage.DangerousThing()
+```
+
+
 ### License
 MIT © [Frederik Ring](http://www.frederikring.com)
