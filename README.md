@@ -5,7 +5,7 @@
 
 > wrap a thunk with defer / recover
 
-Package `thunk` decorates the passed thunk with a [defer / recover block](https://blog.golang.org/defer-panic-and-recover)
+Package `thunk` decorates the a passed thunk or an `http.Handler` with a [defer / recover block](https://blog.golang.org/defer-panic-and-recover)
 
 ### Installation using go get
 
@@ -45,6 +45,23 @@ defer func() {
 }()
 result := weirdpackage.DangerousThing()
 ```
+
+### HTTP Middleware
+
+To decorate your `http.Handler`, use `HandleSafelyWith(func(error))` or `HandleSafely()`:
+
+```go
+handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	res := shadypkg.DoThings()
+	w.Write([]byte(res))
+})
+middleware := HandleSafelyWith(func(err error) {
+	fmt.Printf("Encountered error: %v", err)
+})
+http.ListenAndServe("0.0.0.0:8080", middleware(handler))
+```
+
+In case of an error, the handler will respond with a 500 error code.
 
 
 ### License
