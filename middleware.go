@@ -14,7 +14,7 @@ func HandleSafelyWith(callback func(error)) func(http.Handler) http.Handler {
 				next.ServeHTTP(w, r)
 			}, func(err error) {
 				callback(err)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			})
 		})
 	}
